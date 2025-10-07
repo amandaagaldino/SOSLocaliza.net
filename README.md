@@ -1,11 +1,19 @@
 # SOSLocaliza
-
-### Objetivo do Projeto
-
 O SOSLocaliza é um aplicativo inovador que visa promover a segurança da população em situação de risco climático, combinando geolocalização, aprendizado de máquina e mapas interativos. O principal objetivo é fornecer uma ferramenta eficaz para que os usuários possam identificar se estão em uma área de risco, enviar alertas emergenciais de forma rápida e acessar orientações preventivas para agir em eventos extremos, como alagamentos e tempestades.
 
 ## API de Usuários
 Esta aplicação gerencia o CRUD (Create, Read, Update, Delete) de usuários e foi implementada seguindo os princípios da Clean Architecture.
+
+### Escopo
+
+O escopo deste projeto está focado exclusivamente na criação de uma API RESTful para manipular os dados dos usuários. As funcionalidades principais incluem:
+
+* Criação de novos usuários.
+* Listagem de todos os usuários cadastrados.
+* Busca de um usuário específico por seu ID.
+* Atualização de informações específicas do usuário (email e senha).
+* Remoção lógica de usuários (soft delete).
+* Verificação de conexão com o banco de dados.
 
 ## Funcionalidades Implementadas
 
@@ -16,6 +24,26 @@ Esta aplicação gerencia o CRUD (Create, Read, Update, Delete) de usuários e f
 - ✅ Atualizar usuário
 - ✅ Alterar email específico
 - ✅ Remover usuário (soft delete)
+
+### Requisitos Funcionais e Não Funcionais
+
+#### Requisitos Funcionais:
+
+* **RF01:** O sistema deve permitir o cadastro de novos usuários, fornecendo dados como nome, email e senha.
+* **RF02:** O sistema deve permitir a listagem de todos os usuários cadastrados.
+* **RF03:** O sistema deve permitir a busca de um usuário específico através de seu ID.
+* **RF04:** O sistema deve permitir a atualização do email de um usuário existente.
+* **RF05:** O sistema deve permitir a atualização da senha de um usuário existente.
+* **RF06:** O sistema deve permitir a desativação de um usuário (soft delete), mantendo o registro no banco de dados, mas marcando-o como inativo.
+* **RF07:** O sistema deve disponibilizar um endpoint para testar a conexão com o banco de dados.
+
+#### Requisitos Não Funcionais:
+* **RNF01 (Segurança):** A comunicação com a API deve ser feita através do protocolo HTTPS.
+* **RNF02 (Desempenho):** As respostas da API para as requisições devem ter um tempo médio inferior a 500ms.
+* **RNF03 (Disponibilidade):** O serviço deve possuir uma disponibilidade de 99.5%.
+* **RNF04 (Manutenibilidade):** O código deve seguir os princípios da Clean Architecture para garantir o desacoplamento e a facilidade de manutenção.
+* **RNF05 (Confiabilidade):** A API deve implementar tratamento de erros para retornar mensagens claras e status HTTP adequados.
+
 
 ### Arquitetura
 - **Domain Layer**: Entidades e interfaces de repositório
@@ -67,42 +95,3 @@ PUT /api/usuario/{id}
 - Validação de CPF (11 dígitos)
 - Campos obrigatórios
 - Soft delete (usuários são marcados como inativos)
-
-### Configurar Credenciais do Banco de Dados
-
-⚠️ **IMPORTANTE**: As credenciais do banco de dados **NÃO** estão incluídas no repositório por motivos de segurança.
-
-Crie o arquivo `Sprint1.API/appsettings.Development.json` com o seguinte conteúdo:
-
-```json
-{
-  "ConnectionStrings": {
-    "DefaultConnection": "Data Source=(DESCRIPTION=(RETRY_COUNT=20)(RETRY_DELAY=3)(ADDRESS=(PROTOCOL=TCPS)(PORT=1522)(HOST=seu-host.oraclecloud.com))(CONNECT_DATA=(SERVICE_NAME=seu_service_name.oraclecloud.com))(SECURITY=(SSL_SERVER_DN_MATCH=yes)));User Id=SEU_USUARIO;Password=SUA_SENHA;Wallet_Location=/caminho/para/seu/Wallet"
-  },
-  "Logging": {
-    "LogLevel": {
-      "Default": "Information",
-      "Microsoft.AspNetCore": "Warning"
-    }
-  }
-}
-```
-
-**Substitua:**
-- `seu-host.oraclecloud.com` - Host do seu Oracle Cloud
-- `seu_service_name.oraclecloud.com` - Nome do serviço do banco
-- `SEU_USUARIO` - Usuário do banco de dados
-- `SUA_SENHA` - Senha do banco de dados
-- `/caminho/para/seu/Wallet` - Caminho completo para a pasta da Oracle Wallet
-
-### 3. Configurar Oracle Wallet
-
-A Oracle Wallet contém os certificados necessários para conexão segura:
-
-1. Acesse o [Oracle Cloud Console](https://cloud.oracle.com/)
-2. Navegue até seu Autonomous Database
-3. Clique em **"DB Connection"**
-4. Baixe a Wallet (arquivo .zip)
-5. Extraia em um local seguro (ex: `~/Documents/Wallet_NomeDoSeuBanco`)
-6. Use esse caminho no `appsettings.Development.json`
-
