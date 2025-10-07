@@ -1,0 +1,40 @@
+### Testar Conexão com Oracle
+GET https://localhost:7000/api/usuario/test-connection
+
+### Criar Usuário
+POST https://localhost:7000/api/usuario
+Content-Type: application/json
+
+{
+  "nomeCompleto": "João Silva",
+  "email": "joao@email.com",
+  "senha": "123456",
+  "dataNascimento": "1990-01-01T00:00:00Z",
+  "cpf": "12345678901"
+}
+
+### Listar Todos os Usuários
+GET https://localhost:7000/api/usuario
+
+### Buscar Usuário por ID
+GET https://localhost:7000/api/usuario/{{usuarioId}}
+
+### Alterar Email
+PATCH https://localhost:7000/api/usuario/{{usuarioId}}/email
+Content-Type: application/json
+
+{
+  "email": "novo.email@email.com"
+}
+
+### Alterar Senha
+PATCH https://localhost:7000/api/usuario/{{usuarioId}}/senha
+Content-Type: application/json
+
+{
+  "senhaAtual": "123456",
+  "novaSenha": "654321"
+}
+
+### Remover Usuário
+DELETE https://localhost:7000/api/usuario/{{usuarioId}}
