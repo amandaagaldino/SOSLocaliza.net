@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Sprint1.DTOs;
 using Sprint1.DTOs.Usuario;
-using Sprint1.Infrastructure.Data;
 using Sprint1.Infrastructure.Data.UseCase;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -13,75 +12,31 @@ namespace Sprint1.Controllers;
 public class UsuarioController : ControllerBase
 {
     private readonly IUsuarioUseCase _usuarioUseCase;
-    private readonly ApplicationDbContext _context;
+    private readonly TestConnectionUseCase _testConnectionUseCase;
 
     public UsuarioController(
         IUsuarioUseCase usuarioUseCase,
-        ApplicationDbContext context)
+        TestConnectionUseCase testConnectionUseCase)
     {
         _usuarioUseCase = usuarioUseCase;
-        _context = context;
+        _testConnectionUseCase = testConnectionUseCase;
     }
 
     [HttpGet("test-connection")]
-    [SwaggerOperation(Summary = "Teste a conexao com o bando de dados")]
-    [ProducesResponseType(typeof(object), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [SwaggerOperation(Summary = "Testar conexão com o banco de dados")]
+    [ProducesResponseType(typeof(TestConnectionDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(TestConnectionDto), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> TestConnection()
     {
-        try
+        var result = await _testConnectionUseCase.ExecuteAsync();
+        
+        if (result.Success)
         {
-            var connection = _context.Database.GetDbConnection();
-            string? databaseName = null;
-            int count = 0;
-
-            try
-            {
-                if (connection.State != System.Data.ConnectionState.Open)
-                {
-                    await connection.OpenAsync();
-                }
-
-                databaseName = connection.Database;
-                
-                count = await _context.Usuarios.CountAsync();
-            }
-            finally
-            {
-                if (connection.State == System.Data.ConnectionState.Open)
-                {
-                    await connection.CloseAsync();
-                }
-            }
-            
-            return Ok(new
-            {
-                success = true,
-                message = "Conexão com Oracle Cloud (Autonomous Database) estabelecida com sucesso!",
-                database = databaseName ?? "N/A",
-                totalUsuarios = count,
-                servidor = "Oracle Autonomous Database - São Paulo",
-                timestamp = DateTime.UtcNow
-            });
+            return Ok(result);
         }
-        catch (Exception ex)
+        else
         {
-            var connection = _context.Database.GetDbConnection();
-            if (connection.State == System.Data.ConnectionState.Open)
-            {
-                await connection.CloseAsync();
-            }
-
-            return StatusCode(500, new
-            {
-                success = false,
-                message = "Erro ao conectar com o banco de dados",
-                error = ex.Message,
-                innerError = ex.InnerException?.Message,
-                stackTrace = ex.StackTrace,
-                connectionState = connection.State.ToString(),
-                timestamp = DateTime.UtcNow
-            });
+            return StatusCode(500, result);
         }
     }
 

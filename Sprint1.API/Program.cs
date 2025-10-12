@@ -17,7 +17,7 @@ public class Program
             .GetSection("Swagger")
             .Get<SwaggerConfig>();
 
-        // Adiciona serviços ao container
+        
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen(swagger =>
@@ -48,11 +48,11 @@ public class Program
         );
         
         builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-        builder.Services.AddScoped<IUsuarioUseCase, UsuarioUseCase>(); 
+        builder.Services.AddScoped<IUsuarioUseCase, UsuarioUseCase>();
+        builder.Services.AddScoped<TestConnectionUseCase>(); 
         
         var app = builder.Build();
-
-        // Configuração do pipeline HTTP
+        
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
