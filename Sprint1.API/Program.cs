@@ -1,10 +1,10 @@
 using Microsoft.OpenApi.Models;
 using Sprint1.Domain.Repositories;
 using Sprint1.Infrastructure.Data;
+using Sprint1.Infrastructure.Data.UseCase;
 using Sprint1.Utils;
 
 using Microsoft.EntityFrameworkCore;
-using Sprint1.UseCase.Usuario;
 
 public class Program
 {
@@ -48,14 +48,7 @@ public class Program
         );
         
         builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-        builder.Services.AddScoped<CreateUsuarioUseCase>();
-        builder.Services.AddScoped<AlterarEmailUsuarioUseCase>();
-        builder.Services.AddScoped<AlterarSenhaUsuarioUseCase>();
-        builder.Services.AddScoped<DeleteUsuarioUseCase>();
-        builder.Services.AddScoped<GetUsuarioByIdUseCase>();
-        builder.Services.AddScoped<GetAllUsuariosUseCase>();
-        
-        //builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>(); alterar? 
+        builder.Services.AddScoped<IUsuarioUseCase, UsuarioUseCase>(); 
         
         var app = builder.Build();
 

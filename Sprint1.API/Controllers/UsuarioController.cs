@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Sprint1.DTOs.Usuario;
-using Sprint1.UseCase.Usuario;
 using Sprint1.Infrastructure.Data;
+using Sprint1.Infrastructure.Data.UseCase;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Sprint1.Controllers;
@@ -12,29 +12,14 @@ namespace Sprint1.Controllers;
 [SwaggerTag("SOSLocaliza - EndPoint em relação a criação de usuario (CRUD)")]
 public class UsuarioController : ControllerBase
 {
-    private readonly CreateUsuarioUseCase _createUsuarioUseCase;
-    private readonly GetUsuarioByIdUseCase _getUsuarioByIdUseCase;
-    private readonly GetAllUsuariosUseCase _getAllUsuariosUseCase;
-    private readonly AlterarEmailUsuarioUseCase _alterarEmailUsuarioUseCase;
-    private readonly AlterarSenhaUsuarioUseCase _alterarSenhaUsuarioUseCase;
-    private readonly DeleteUsuarioUseCase _deleteUsuarioUseCase;
+    private readonly IUsuarioUseCase _usuarioUseCase;
     private readonly ApplicationDbContext _context;
 
     public UsuarioController(
-        CreateUsuarioUseCase createUsuarioUseCase,
-        GetUsuarioByIdUseCase getUsuarioByIdUseCase,
-        GetAllUsuariosUseCase getAllUsuariosUseCase,
-        AlterarEmailUsuarioUseCase alterarEmailUsuarioUseCase,
-        AlterarSenhaUsuarioUseCase alterarSenhaUsuarioUseCase,
-        DeleteUsuarioUseCase deleteUsuarioUseCase,
+        IUsuarioUseCase usuarioUseCase,
         ApplicationDbContext context)
     {
-        _createUsuarioUseCase = createUsuarioUseCase;
-        _getUsuarioByIdUseCase = getUsuarioByIdUseCase;
-        _getAllUsuariosUseCase = getAllUsuariosUseCase;
-        _alterarEmailUsuarioUseCase = alterarEmailUsuarioUseCase;
-        _alterarSenhaUsuarioUseCase = alterarSenhaUsuarioUseCase;
-        _deleteUsuarioUseCase = deleteUsuarioUseCase;
+        _usuarioUseCase = usuarioUseCase;
         _context = context;
     }
 
@@ -109,7 +94,7 @@ public class UsuarioController : ControllerBase
     {
         try
         {
-            var usuario = await _createUsuarioUseCase.ExecuteAsync(dto);
+            var usuario = await _usuarioUseCase.CreateUsuarioAsync(dto);
             return CreatedAtAction(nameof(GetById), new { id = usuario.Id }, usuario);
         }
         catch (InvalidOperationException ex)
@@ -128,7 +113,7 @@ public class UsuarioController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetById(int id)
     {
-        var usuario = await _getUsuarioByIdUseCase.ExecuteAsync(id);
+        var usuario = await _usuarioUseCase.GetUsuarioByIdAsync(id);
         
         if (usuario == null)
             return NotFound(new { message = "Usuário não encontrado" });
@@ -141,7 +126,7 @@ public class UsuarioController : ControllerBase
     [ProducesResponseType(typeof(List<UsuarioResponseDto>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAll()
     {
-        var usuarios = await _getAllUsuariosUseCase.ExecuteAsync();
+        var usuarios = await _usuarioUseCase.GetAllUsuariosAsync();
         return Ok(usuarios);
     }
 
@@ -155,7 +140,7 @@ public class UsuarioController : ControllerBase
     {
         try
         {
-            var usuario = await _alterarEmailUsuarioUseCase.ExecuteAsync(id, dto);
+            var usuario = await _usuarioUseCase.AlterarEmailUsuarioAsync(id, dto);
             return Ok(usuario);
         }
         catch (InvalidOperationException ex)
@@ -181,7 +166,7 @@ public class UsuarioController : ControllerBase
     {
         try
         {
-            var usuario = await _alterarSenhaUsuarioUseCase.ExecuteAsync(id, dto);
+            var usuario = await _usuarioUseCase.AlterarSenhaUsuarioAsync(id, dto);
             return Ok(usuario);
         }
         catch (InvalidOperationException ex)
@@ -206,7 +191,7 @@ public class UsuarioController : ControllerBase
     {
         try
         {
-            await _deleteUsuarioUseCase.ExecuteAsync(id);
+            await _usuarioUseCase.DeleteUsuarioAsync(id);
             return NoContent();
         }
         catch (InvalidOperationException ex)
