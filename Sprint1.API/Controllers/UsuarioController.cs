@@ -9,7 +9,7 @@ namespace Sprint1.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-//[SwaggerTag("SOSLocaliza - EndPoint em relacao criacao de usuario (CRUD)")]
+[SwaggerTag("SOSLocaliza - EndPoint em relação a criação de usuario (CRUD)")]
 public class UsuarioController : ControllerBase
 {
     private readonly CreateUsuarioUseCase _createUsuarioUseCase;
@@ -39,14 +39,13 @@ public class UsuarioController : ControllerBase
     }
 
     [HttpGet("test-connection")]
-    //[SwaggerOperation(Summary = "Teste a conexao com o bando de dados")]
+    [SwaggerOperation(Summary = "Teste a conexao com o bando de dados")]
     [ProducesResponseType(typeof(object), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> TestConnection()
     {
         try
         {
-            // Garantir que a conexao seja fechada depois 
             var connection = _context.Database.GetDbConnection();
             string? databaseName = null;
             int count = 0;
@@ -82,7 +81,6 @@ public class UsuarioController : ControllerBase
         }
         catch (Exception ex)
         {
-            // Garantir que a conexao seja fechada mesmo em caso de erro
             var connection = _context.Database.GetDbConnection();
             if (connection.State == System.Data.ConnectionState.Open)
             {
@@ -104,6 +102,7 @@ public class UsuarioController : ControllerBase
 
 
     [HttpPost]
+    [SwaggerOperation(Summary = "Criar novo usuário", Description = "Infome o nome completo, email, data nascimento e CPF do usuário")]
     [ProducesResponseType(typeof(UsuarioResponseDto), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Create([FromBody] CreateUsuarioDto dto)
@@ -124,7 +123,7 @@ public class UsuarioController : ControllerBase
     }
     
     [HttpGet("{id}")]
-    //[SwaggerOperation(Summary = "Listar usuario por ID", Description = "Infome o ID do usuario e visualize suas informacoes")]
+    [SwaggerOperation(Summary = "Listar usuário por ID", Description = "Infome o ID do usuário e visualize suas informações")]
     [ProducesResponseType(typeof(UsuarioResponseDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetById(int id)
@@ -138,7 +137,7 @@ public class UsuarioController : ControllerBase
     }
     
     [HttpGet]
-    //[SwaggerOperation(Summary = "Listar usuarios", Description = "Lista todos os usuarios")]
+    [SwaggerOperation(Summary = "Listar usuarios", Description = "Lista todos os usuarios ativos")]
     [ProducesResponseType(typeof(List<UsuarioResponseDto>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAll()
     {
@@ -148,7 +147,7 @@ public class UsuarioController : ControllerBase
 
 
     [HttpPatch("{id}/email")]
-    //[SwaggerOperation(Summary = "Alterar email de um usuario", Description = "Infome o ID do usuario altere o email")]
+    [SwaggerOperation(Summary = "Alterar email de um usuário", Description = "Infome o ID do usuário e altere o email")]
     [ProducesResponseType(typeof(UsuarioResponseDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -174,7 +173,7 @@ public class UsuarioController : ControllerBase
 
 
     [HttpPatch("{id}/senha")]
-    //[SwaggerOperation(Summary = "Altera a senha de um usuario", Description = "Infome o ID do usuario e altere a senha")]
+    [SwaggerOperation(Summary = "Alterar a senha de um usuário", Description = "Infome o ID do usuário e altere a senha")]
     [ProducesResponseType(typeof(UsuarioResponseDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -200,7 +199,7 @@ public class UsuarioController : ControllerBase
 
 
     [HttpDelete("{id}")]
-    //[SwaggerOperation(Summary = "Remova um usuario", Description = "Remocao logica de um usuario")]
+    [SwaggerOperation(Summary = "Remover um usuario", Description = "Remoção lógica de um usuário - Infome o ID do usuario")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete(int id)
