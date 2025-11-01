@@ -1,0 +1,49 @@
+@model Sprint1.DTOs.TestConnectionDto
+
+@{
+    ViewData["Title"] = "Teste de Conexão";
+}
+
+<h1>Teste de Conexão com Banco de Dados</h1>
+
+<div>
+    <dl>
+        <dt>Sucesso:</dt>
+        <dd>@(Model.Success ? "Sim" : "Não")</dd>
+        
+        <dt>Mensagem:</dt>
+        <dd>@Model.Message</dd>
+        
+        <dt>Banco de Dados:</dt>
+        <dd>@Model.Database</dd>
+        
+        <dt>Servidor:</dt>
+        <dd>@Model.Servidor</dd>
+        
+        <dt>Total de Usuários:</dt>
+        <dd>@Model.TotalUsuarios</dd>
+        
+        <dt>Timestamp:</dt>
+        <dd>@Model.Timestamp.ToString("dd/MM/yyyy HH:mm:ss")</dd>
+        
+        @if (!Model.Success)
+        {
+            <dt>Erro:</dt>
+            <dd>@Model.Error</dd>
+            
+            @if (!string.IsNullOrEmpty(Model.InnerError))
+            {
+                <dt>Erro Interno:</dt>
+                <dd>@Model.InnerError</dd>
+            }
+            
+            <dt>Estado da Conexão:</dt>
+            <dd>@Model.ConnectionState</dd>
+        }
+    </dl>
+</div>
+
+<div>
+    <a asp-action="Index">Voltar para Lista de Usuários</a>
+</div>
+

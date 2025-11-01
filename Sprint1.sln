@@ -1,6 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# 
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprint1.API", "Sprint1.API\Sprint1.API.csproj", "{F3DC71E9-69E6-4B96-BE67-B21923FD41E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprint1.Web", "Sprint1.Web\Sprint1.Web.csproj", "{D3521573-D10F-46F7-9030-A992AB9D8A3E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -12,5 +15,9 @@ Global
 		{F3DC71E9-69E6-4B96-BE67-B21923FD41E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3DC71E9-69E6-4B96-BE67-B21923FD41E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F3DC71E9-69E6-4B96-BE67-B21923FD41E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3521573-D10F-46F7-9030-A992AB9D8A3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3521573-D10F-46F7-9030-A992AB9D8A3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3521573-D10F-46F7-9030-A992AB9D8A3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3521573-D10F-46F7-9030-A992AB9D8A3E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

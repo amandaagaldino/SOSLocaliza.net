@@ -1,0 +1,44 @@
+@model Sprint1.DTOs.Usuario.AlterarSenhaDto
+
+@{
+    ViewData["Title"] = "Alterar Senha";
+    var usuarioId = ViewBag.UsuarioId;
+}
+
+<h1>Alterar Senha</h1>
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div>
+        <ul>
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <li>@error.ErrorMessage</li>
+            }
+        </ul>
+    </div>
+}
+
+<form asp-action="EditSenha" asp-route-id="@usuarioId" method="post">
+    <div>
+        <label asp-for="SenhaAtual">Senha Atual:</label>
+        <input asp-for="SenhaAtual" type="password" />
+        <span asp-validation-for="SenhaAtual"></span>
+    </div>
+    
+    <div>
+        <label asp-for="NovaSenha">Nova Senha:</label>
+        <input asp-for="NovaSenha" type="password" />
+        <span asp-validation-for="NovaSenha"></span>
+    </div>
+    
+    <div>
+        <button type="submit">Alterar Senha</button>
+        <a asp-action="Details" asp-route-id="@usuarioId">Cancelar</a>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

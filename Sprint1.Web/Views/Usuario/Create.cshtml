@@ -1,0 +1,61 @@
+@model Sprint1.DTOs.Usuario.CreateUsuarioDto
+
+@{
+    ViewData["Title"] = "Criar Novo Usuário";
+}
+
+<h1>Criar Novo Usuário</h1>
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div>
+        <ul>
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <li>@error.ErrorMessage</li>
+            }
+        </ul>
+    </div>
+}
+
+<form asp-action="Create" method="post">
+    <div>
+        <label asp-for="NomeCompleto"></label>
+        <input asp-for="NomeCompleto" />
+        <span asp-validation-for="NomeCompleto"></span>
+    </div>
+    
+    <div>
+        <label asp-for="Email"></label>
+        <input asp-for="Email" type="email" />
+        <span asp-validation-for="Email"></span>
+    </div>
+    
+    <div>
+        <label asp-for="Senha"></label>
+        <input asp-for="Senha" type="password" />
+        <span asp-validation-for="Senha"></span>
+    </div>
+    
+    <div>
+        <label asp-for="DataNascimento"></label>
+        <input asp-for="DataNascimento" type="date" />
+        <span asp-validation-for="DataNascimento"></span>
+    </div>
+    
+    <div>
+        <label asp-for="Cpf"></label>
+        <input asp-for="Cpf" />
+        <span asp-validation-for="Cpf"></span>
+    </div>
+    
+    <div>
+        <button type="submit">Criar</button>
+        <a asp-action="Index">Cancelar</a>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

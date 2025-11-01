@@ -1,0 +1,45 @@
+@model Sprint1.DTOs.Usuario.UsuarioResponseDto
+
+@{
+    ViewData["Title"] = "Detalhes do Usuário";
+}
+
+<h1>Detalhes do Usuário</h1>
+
+<div>
+    <dl>
+        <dt>Id:</dt>
+        <dd>@Model.Id</dd>
+        
+        <dt>Nome Completo:</dt>
+        <dd>@Model.NomeCompleto</dd>
+        
+        <dt>Email:</dt>
+        <dd>@Model.Email</dd>
+        
+        <dt>CPF:</dt>
+        <dd>@Model.Cpf</dd>
+        
+        <dt>Data de Nascimento:</dt>
+        <dd>@Model.DataNascimento.ToString("dd/MM/yyyy")</dd>
+        
+        <dt>Data de Criação:</dt>
+        <dd>@Model.DataCriacao.ToString("dd/MM/yyyy HH:mm")</dd>
+        
+        @if (Model.DataAtualizacao.HasValue)
+        {
+            <dt>Data de Atualização:</dt>
+            <dd>@Model.DataAtualizacao.Value.ToString("dd/MM/yyyy HH:mm")</dd>
+        }
+        
+        <dt>Ativo:</dt>
+        <dd>@(Model.Ativo ? "Sim" : "Não")</dd>
+    </dl>
+</div>
+
+<div>
+    <a asp-action="EditEmail" asp-route-id="@Model.Id">Alterar Email</a> |
+    <a asp-action="EditSenha" asp-route-id="@Model.Id">Alterar Senha</a> |
+    <a asp-action="Index">Voltar para a Lista</a>
+</div>
+

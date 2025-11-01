@@ -1,0 +1,47 @@
+@model List<Sprint1.DTOs.Usuario.UsuarioResponseDto>
+
+@{
+    ViewData["Title"] = "Lista de Usuários";
+}
+
+<h1>Lista de Usuários</h1>
+
+<p>
+    <a asp-action="Create">Criar Novo Usuário</a>
+</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nome Completo</th>
+            <th>Email</th>
+            <th>CPF</th>
+            <th>Data Nascimento</th>
+            <th>Ativo</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.NomeCompleto</td>
+                <td>@item.Email</td>
+                <td>@item.Cpf</td>
+                <td>@item.DataNascimento.ToString("dd/MM/yyyy")</td>
+                <td>@(item.Ativo ? "Sim" : "Não")</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">Detalhes</a> |
+                    <a asp-action="EditEmail" asp-route-id="@item.Id">Alterar Email</a> |
+                    <a asp-action="EditSenha" asp-route-id="@item.Id">Alterar Senha</a> |
+                    <form asp-action="Delete" asp-route-id="@item.Id" method="post" style="display:inline;">
+                        <button type="submit" onclick="return confirm('Tem certeza que deseja deletar este usuário?')">Deletar</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
