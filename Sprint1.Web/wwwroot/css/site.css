@@ -1,3 +1,12 @@
+/* Cores personalizadas - #0F52BA */
+:root {
+  --bs-primary: #0F52BA !important;
+  --bs-primary-rgb: 15, 82, 186 !important;
+  --bs-primary-bg-subtle: #0F52BA !important;
+  --bs-primary-text-emphasis: #0F52BA !important;
+  --bs-primary-border-subtle: #0F52BA !important;
+}
+
 html {
   font-size: 14px;
   position: relative;
@@ -10,8 +19,36 @@ html {
   }
 }
 
+/* Sobrescrever cores azuis do Bootstrap para #0F52BA */
+.bg-primary,
+.navbar-dark.bg-primary,
+.btn-primary,
+.badge.bg-primary,
+.alert-primary {
+  background-color: #0F52BA !important;
+  border-color: #0F52BA !important;
+}
+
+.text-primary,
+.btn-primary,
+.alert-primary,
+.badge.bg-primary {
+  color: #fff !important;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+  background-color: #0C42A0 !important;
+  border-color: #0C42A0 !important;
+}
+
+.text-primary:not(.btn-primary):not(.badge):not(.alert-primary) {
+  color: #0F52BA !important;
+}
+
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem rgba(15, 82, 186, 0.25) !important;
 }
 
 body {
@@ -48,13 +85,17 @@ main {
 }
 
 .form-control:focus {
-  border-color: #86b7fe;
-  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  border-color: #0F52BA !important;
+  box-shadow: 0 0 0 0.25rem rgba(15, 82, 186, 0.25) !important;
 }
 
 /* Badges customizados */
 .badge {
   padding: 0.35em 0.65em;
+}
+
+.badge.bg-primary {
+  background-color: #0F52BA !important;
 }
 
 /* Footer fixo no final */
@@ -81,4 +122,192 @@ footer {
 /* Botões de ação */
 .btn-action {
   margin: 0 0.25rem;
+}
+
+/* Links e navegação */
+.nav-link.active {
+  color: #fff !important;
+}
+
+.navbar-nav .nav-link:hover {
+  color: rgba(255, 255, 255, 0.75) !important;
+}
+
+/* Border primary */
+.border-primary {
+  border-color: #0F52BA !important;
+}
+
+/* Card header primary */
+.card-header.bg-primary {
+  background-color: #0F52BA !important;
+}
+
+/* Outros elementos com cor primary */
+a.text-primary:hover,
+a.text-primary:focus {
+  color: #0C42A0 !important;
+}
+
+/* Cards de destaque na Home - Animação suave e clean */
+.home-feature-card {
+  transition: all 0.3s ease;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15) !important;
+}
+
+.home-feature-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 35px rgba(15, 82, 186, 0.35) !important;
+}
+
+.home-feature-card .card-body i {
+  transition: transform 0.3s ease;
+  display: inline-block;
+}
+
+.home-feature-card:hover .card-body i {
+  transform: scale(1.1);
+}
+
+.home-feature-card .btn {
+  transition: all 0.3s ease;
+}
+
+.home-feature-card:hover .btn {
+  transform: scale(1.05);
+}
+
+/* Sistema de Informações - Tema Claro */
+.system-info-card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 1rem;
+  border: 1px solid #dee2e6;
+}
+
+.system-info-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.system-info-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #0F52BA;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.system-info-title {
+  color: #212529;
+  font-weight: bold;
+  font-size: 1.25rem;
+  margin: 0;
+}
+
+.system-info-divider {
+  border-color: rgba(0, 0, 0, 0.1);
+  margin: 0.75rem 0;
+}
+
+.system-info-description {
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  border-left: 3px solid #0F52BA;
+}
+
+.system-info-description p {
+  color: #495057;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.system-info-section {
+  padding: 0.25rem 0;
+}
+
+.system-info-subtitle {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 600;
+  font-size: 1.05rem;
+  margin-bottom: 0.75rem;
+}
+
+.system-info-subtitle-blue {
+  color: #0F52BA;
+}
+
+.system-info-subtitle-green {
+  color: #28a745;
+}
+
+.system-section-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1rem;
+}
+
+.system-icon-blue {
+  background-color: #0F52BA;
+}
+
+.system-icon-green {
+  background-color: #28a745;
+}
+
+.system-info-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.system-info-list li {
+  color: #495057;
+  padding: 0.35rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.system-list-blue li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #0F52BA;
+}
+
+.system-list-green li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #28a745;
 }

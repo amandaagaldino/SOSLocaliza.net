@@ -6,12 +6,12 @@
     <h1 class="display-4 mb-3">
         <i class="bi bi-shield-check text-primary"></i> SOSLocaliza
     </h1>
-    <p class="lead text-muted">Sistema de Segurança para População em Situação de Risco Climático</p>
+    <p class="lead text-muted">Gerencie usuários e informações de forma fácil e eficiente</p>
 </div>
 
 <div class="row g-4 mb-5">
     <div class="col-md-6">
-        <div class="card h-100 shadow-sm border-0">
+        <div class="card h-100 shadow border-0 home-feature-card">
             <div class="card-body text-center">
                 <div class="mb-3">
                     <i class="bi bi-people text-primary" style="font-size: 3rem;"></i>
@@ -27,7 +27,7 @@
         </div>
     </div>
     <div class="col-md-6">
-        <div class="card h-100 shadow-sm border-0">
+        <div class="card h-100 shadow border-0 home-feature-card">
             <div class="card-body text-center">
                 <div class="mb-3">
                     <i class="bi bi-database-check text-success" style="font-size: 3rem;"></i>
@@ -46,26 +46,52 @@
 
 <div class="row">
     <div class="col-12">
-        <div class="card shadow-sm">
-            <div class="card-header bg-primary text-white">
-                <h5 class="mb-0">
-                    <i class="bi bi-info-circle me-2"></i>Sobre o Sistema
-                </h5>
+        <div class="system-info-card shadow-sm">
+            <div class="system-info-header">
+                <div class="system-info-icon">
+                    <i class="bi bi-info-circle"></i>
+                </div>
+                <h5 class="system-info-title">Informações do Sistema</h5>
             </div>
-            <div class="card-body">
-                <p>
-                    O <strong>SOSLocaliza</strong> é um aplicativo inovador que visa promover a segurança da população 
-                    em situação de risco climático, combinando geolocalização, aprendizado de máquina e mapas interativos.
-                </p>
+            <hr class="system-info-divider">
+            <div class="system-info-description">
                 <p class="mb-0">
-                    <strong>Principais funcionalidades:</strong>
+                    O <strong>SOSLocaliza</strong> é um projeto que visa promover a segurança da população em situação de risco climático. A aplicação desenvolvida em C# gerencia, como foco principal, o CRUD (Create, Read, Update, Delete) de usuários.
                 </p>
-                <ul>
-                    <li>Identificação de áreas de risco</li>
-                    <li>Envio de alertas emergenciais</li>
-                    <li>Acesso a orientações preventivas para eventos extremos</li>
-                    <li>Gerenciamento completo de usuários</li>
-                </ul>
+            </div>
+            <div class="row g-4 mt-2">
+                <div class="col-md-6">
+                    <div class="system-info-section">
+                        <h6 class="system-info-subtitle system-info-subtitle-blue">
+                            <span class="system-section-icon system-icon-blue">
+                                <i class="bi bi-check-circle"></i>
+                            </span>
+                            Funcionalidades Disponíveis
+                        </h6>
+                        <ul class="system-info-list system-list-blue">
+                            <li>CRUD completo de Usuários</li>
+                            <li>Validações de formulários</li>
+                            <li>Interface responsiva</li>
+                            <li>API REST com Swagger</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="system-info-section">
+                        <h6 class="system-info-subtitle system-info-subtitle-green">
+                            <span class="system-section-icon system-icon-green">
+                                <i class="bi bi-code-slash"></i>
+                            </span>
+                            Tecnologias Utilizadas
+                        </h6>
+                        <ul class="system-info-list system-list-green">
+                            <li>ASP.NET Core 8.0</li>
+                            <li>Entity Framework Core</li>
+                            <li>Oracle Database</li>
+                            <li>Bootstrap 5</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
