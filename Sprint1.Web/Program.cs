@@ -35,6 +35,33 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+// Rotas personalizadas
+app.MapControllerRoute(
+    name: "usuario-details",
+    pattern: "usuarios/detalhes/{id:int}",
+    defaults: new { controller = "Usuario", action = "Details" });
+
+app.MapControllerRoute(
+    name: "usuario-create",
+    pattern: "usuarios/criar",
+    defaults: new { controller = "Usuario", action = "Create" });
+
+app.MapControllerRoute(
+    name: "usuario-edit-email",
+    pattern: "usuarios/{id:int}/alterar-email",
+    defaults: new { controller = "Usuario", action = "EditEmail" });
+
+app.MapControllerRoute(
+    name: "usuario-edit-senha",
+    pattern: "usuarios/{id:int}/alterar-senha",
+    defaults: new { controller = "Usuario", action = "EditSenha" });
+
+app.MapControllerRoute(
+    name: "usuario-test-connection",
+    pattern: "usuarios/testar-conexao",
+    defaults: new { controller = "Usuario", action = "TestConnection" });
+
+// Rota padrão
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
