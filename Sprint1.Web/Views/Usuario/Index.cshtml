@@ -1,47 +1,93 @@
-@model List<Sprint1.DTOs.Usuario.UsuarioResponseDto>
+@model List<Sprint1.Models.ViewModels.UsuarioListViewModel>
 
 @{
     ViewData["Title"] = "Lista de Usuários";
 }
 
-<h1>Lista de Usuários</h1>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="bi bi-people me-2"></i>Lista de Usuários</h2>
+    <a asp-action="Create" class="btn btn-primary">
+        <i class="bi bi-plus-circle me-1"></i>Criar Novo Usuário
+    </a>
+</div>
 
-<p>
-    <a asp-action="Create">Criar Novo Usuário</a>
-</p>
-
-<table>
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Nome Completo</th>
-            <th>Email</th>
-            <th>CPF</th>
-            <th>Data Nascimento</th>
-            <th>Ativo</th>
-            <th>Ações</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.Id</td>
-                <td>@item.NomeCompleto</td>
-                <td>@item.Email</td>
-                <td>@item.Cpf</td>
-                <td>@item.DataNascimento.ToString("dd/MM/yyyy")</td>
-                <td>@(item.Ativo ? "Sim" : "Não")</td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.Id">Detalhes</a> |
-                    <a asp-action="EditEmail" asp-route-id="@item.Id">Alterar Email</a> |
-                    <a asp-action="EditSenha" asp-route-id="@item.Id">Alterar Senha</a> |
-                    <form asp-action="Delete" asp-route-id="@item.Id" method="post" style="display:inline;">
-                        <button type="submit" onclick="return confirm('Tem certeza que deseja deletar este usuário?')">Deletar</button>
-                    </form>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-info" role="alert">
+        <i class="bi bi-info-circle me-2"></i>Nenhum usuário cadastrado ainda.
+        <a asp-action="Create" class="alert-link">Criar primeiro usuário</a>
+    </div>
+}
+else
+{
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome Completo</th>
+                            <th>Email</th>
+                            <th>CPF</th>
+                            <th>Data Nascimento</th>
+                            <th>Status</th>
+                            <th class="text-center">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Id</td>
+                                <td>@item.NomeCompleto</td>
+                                <td>@item.Email</td>
+                                <td>@item.Cpf</td>
+                                <td>@item.DataNascimento.ToString("dd/MM/yyyy")</td>
+                                <td>
+                                    @if (item.Ativo)
+                                    {
+                                        <span class="badge bg-success">
+                                            <i class="bi bi-check-circle me-1"></i>Ativo
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">
+                                            <i class="bi bi-x-circle me-1"></i>Inativo
+                                        </span>
+                                    }
+                                </td>
+                                <td class="text-center">
+                                    <div class="btn-group" role="group">
+                                        <a asp-action="Details" asp-route-id="@item.Id" 
+                                           class="btn btn-sm btn-info text-white" title="Detalhes">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                        <a asp-action="EditEmail" asp-route-id="@item.Id" 
+                                           class="btn btn-sm btn-warning text-white" title="Alterar Email">
+                                            <i class="bi bi-envelope"></i>
+                                        </a>
+                                        <a asp-action="EditSenha" asp-route-id="@item.Id" 
+                                           class="btn btn-sm btn-secondary text-white" title="Alterar Senha">
+                                            <i class="bi bi-key"></i>
+                                        </a>
+                                        <form asp-action="Delete" asp-route-id="@item.Id" method="post" 
+                                              style="display:inline;" onsubmit="return confirm('Tem certeza que deseja remover este usuário?');">
+                                            <button type="submit" class="btn btn-sm btn-danger" title="Remover">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer text-muted">
+            <small><i class="bi bi-info-circle me-1"></i>Total de @Model.Count usuário(s) cadastrado(s)</small>
+        </div>
+    </div>
+}

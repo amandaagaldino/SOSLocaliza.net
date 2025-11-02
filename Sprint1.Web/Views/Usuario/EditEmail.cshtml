@@ -1,38 +1,50 @@
-@model Sprint1.DTOs.Usuario.AlterarEmailDto
+@model Sprint1.Models.ViewModels.AlterarEmailViewModel
 
 @{
     ViewData["Title"] = "Alterar Email";
-    var usuarioId = ViewBag.UsuarioId;
+    var usuarioId = ViewBag.UsuarioId as int?;
 }
 
-<h1>Alterar Email</h1>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header bg-warning text-dark">
+                <h4 class="mb-0">
+                    <i class="bi bi-envelope me-2"></i>Alterar Email do Usuário
+                </h4>
+            </div>
+            <div class="card-body">
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    <div class="alert alert-danger" role="alert">
+                        <h5 class="alert-heading"><i class="bi bi-exclamation-triangle me-2"></i>Erros de Validação</h5>
+                        <hr>
+                        <div asp-validation-summary="All" class="mb-0"></div>
+                    </div>
+                }
 
-@if (!ViewData.ModelState.IsValid)
-{
-    <div>
-        <ul>
-            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
-            {
-                <li>@error.ErrorMessage</li>
-            }
-        </ul>
-    </div>
-}
+                <form asp-action="EditEmail" asp-route-id="@usuarioId" method="post">
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label"></label>
+                        <input asp-for="Email" type="email" class="form-control" placeholder="novo@email.com" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                        <small class="form-text text-muted">Digite o novo endereço de email</small>
+                    </div>
 
-<form asp-action="EditEmail" asp-route-id="@usuarioId" method="post">
-    <div>
-        <label asp-for="Email">Novo Email:</label>
-        <input asp-for="Email" type="email" />
-        <span asp-validation-for="Email"></span>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a asp-action="Details" asp-route-id="@usuarioId" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left me-1"></i>Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-warning text-dark">
+                            <i class="bi bi-check-circle me-1"></i>Alterar Email
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-    
-    <div>
-        <button type="submit">Alterar Email</button>
-        <a asp-action="Details" asp-route-id="@usuarioId">Cancelar</a>
-    </div>
-</form>
+</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-

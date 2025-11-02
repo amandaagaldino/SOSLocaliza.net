@@ -1,61 +1,80 @@
-@model Sprint1.DTOs.Usuario.CreateUsuarioDto
+@model Sprint1.Models.ViewModels.UsuarioViewModel
 
 @{
     ViewData["Title"] = "Criar Novo Usuário";
 }
 
-<h1>Criar Novo Usuário</h1>
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">
+                    <i class="bi bi-person-plus me-2"></i>Criar Novo Usuário
+                </h4>
+            </div>
+            <div class="card-body">
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    <div class="alert alert-danger" role="alert">
+                        <h5 class="alert-heading"><i class="bi bi-exclamation-triangle me-2"></i>Erros de Validação</h5>
+                        <hr>
+                        <div asp-validation-summary="All" class="mb-0"></div>
+                    </div>
+                }
 
-@if (!ViewData.ModelState.IsValid)
-{
-    <div>
-        <ul>
-            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
-            {
-                <li>@error.ErrorMessage</li>
-            }
-        </ul>
-    </div>
-}
+                <form asp-action="Create" method="post">
+                    <div class="mb-3">
+                        <label asp-for="NomeCompleto" class="form-label"></label>
+                        <input asp-for="NomeCompleto" class="form-control" placeholder="Digite o nome completo" />
+                        <span asp-validation-for="NomeCompleto" class="text-danger"></span>
+                    </div>
 
-<form asp-action="Create" method="post">
-    <div>
-        <label asp-for="NomeCompleto"></label>
-        <input asp-for="NomeCompleto" />
-        <span asp-validation-for="NomeCompleto"></span>
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label"></label>
+                        <input asp-for="Email" type="email" class="form-control" placeholder="exemplo@email.com" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Senha" class="form-label"></label>
+                        <input asp-for="Senha" type="password" class="form-control" placeholder="Mínimo 6 caracteres" />
+                        <span asp-validation-for="Senha" class="text-danger"></span>
+                        <small class="form-text text-muted">A senha deve ter entre 6 e 50 caracteres</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="DataNascimento" class="form-label"></label>
+                        <input asp-for="DataNascimento" type="date" class="form-control" />
+                        <span asp-validation-for="DataNascimento" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Cpf" class="form-label"></label>
+                        <input asp-for="Cpf" class="form-control" placeholder="Apenas números (11 dígitos)" maxlength="11" />
+                        <span asp-validation-for="Cpf" class="text-danger"></span>
+                        <small class="form-text text-muted">Digite apenas os 11 dígitos do CPF</small>
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left me-1"></i>Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-circle me-1"></i>Criar Usuário
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-    
-    <div>
-        <label asp-for="Email"></label>
-        <input asp-for="Email" type="email" />
-        <span asp-validation-for="Email"></span>
-    </div>
-    
-    <div>
-        <label asp-for="Senha"></label>
-        <input asp-for="Senha" type="password" />
-        <span asp-validation-for="Senha"></span>
-    </div>
-    
-    <div>
-        <label asp-for="DataNascimento"></label>
-        <input asp-for="DataNascimento" type="date" />
-        <span asp-validation-for="DataNascimento"></span>
-    </div>
-    
-    <div>
-        <label asp-for="Cpf"></label>
-        <input asp-for="Cpf" />
-        <span asp-validation-for="Cpf"></span>
-    </div>
-    
-    <div>
-        <button type="submit">Criar</button>
-        <a asp-action="Index">Cancelar</a>
-    </div>
-</form>
+</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        // Máscara para CPF (apenas números)
+        document.getElementById('Cpf').addEventListener('input', function (e) {
+            this.value = this.value.replace(/\D/g, '');
+        });
+    </script>
 }
-

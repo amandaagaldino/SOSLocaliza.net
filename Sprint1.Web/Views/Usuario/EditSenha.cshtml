@@ -1,44 +1,67 @@
-@model Sprint1.DTOs.Usuario.AlterarSenhaDto
+@model Sprint1.Models.ViewModels.AlterarSenhaViewModel
 
 @{
     ViewData["Title"] = "Alterar Senha";
-    var usuarioId = ViewBag.UsuarioId;
+    var usuarioId = ViewBag.UsuarioId as int?;
 }
 
-<h1>Alterar Senha</h1>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header bg-secondary text-white">
+                <h4 class="mb-0">
+                    <i class="bi bi-key me-2"></i>Alterar Senha do Usuário
+                </h4>
+            </div>
+            <div class="card-body">
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    <div class="alert alert-danger" role="alert">
+                        <h5 class="alert-heading"><i class="bi bi-exclamation-triangle me-2"></i>Erros de Validação</h5>
+                        <hr>
+                        <div asp-validation-summary="All" class="mb-0"></div>
+                    </div>
+                }
 
-@if (!ViewData.ModelState.IsValid)
-{
-    <div>
-        <ul>
-            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
-            {
-                <li>@error.ErrorMessage</li>
-            }
-        </ul>
-    </div>
-}
+                <form asp-action="EditSenha" asp-route-id="@usuarioId" method="post">
+                    <div class="mb-3">
+                        <label asp-for="SenhaAtual" class="form-label"></label>
+                        <input asp-for="SenhaAtual" type="password" class="form-control" placeholder="Digite a senha atual" />
+                        <span asp-validation-for="SenhaAtual" class="text-danger"></span>
+                    </div>
 
-<form asp-action="EditSenha" asp-route-id="@usuarioId" method="post">
-    <div>
-        <label asp-for="SenhaAtual">Senha Atual:</label>
-        <input asp-for="SenhaAtual" type="password" />
-        <span asp-validation-for="SenhaAtual"></span>
+                    <div class="mb-3">
+                        <label asp-for="NovaSenha" class="form-label"></label>
+                        <input asp-for="NovaSenha" type="password" class="form-control" placeholder="Digite a nova senha" />
+                        <span asp-validation-for="NovaSenha" class="text-danger"></span>
+                        <small class="form-text text-muted">A senha deve ter entre 6 e 50 caracteres</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="ConfirmarNovaSenha" class="form-label"></label>
+                        <input asp-for="ConfirmarNovaSenha" type="password" class="form-control" placeholder="Confirme a nova senha" />
+                        <span asp-validation-for="ConfirmarNovaSenha" class="text-danger"></span>
+                    </div>
+
+                    <div class="alert alert-info" role="alert">
+                        <i class="bi bi-info-circle me-2"></i>
+                        <strong>Importante:</strong> Certifique-se de digitar corretamente a senha atual e a nova senha.
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a asp-action="Details" asp-route-id="@usuarioId" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left me-1"></i>Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-circle me-1"></i>Alterar Senha
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-    
-    <div>
-        <label asp-for="NovaSenha">Nova Senha:</label>
-        <input asp-for="NovaSenha" type="password" />
-        <span asp-validation-for="NovaSenha"></span>
-    </div>
-    
-    <div>
-        <button type="submit">Alterar Senha</button>
-        <a asp-action="Details" asp-route-id="@usuarioId">Cancelar</a>
-    </div>
-</form>
+</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-

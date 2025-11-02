@@ -1,49 +1,106 @@
-@model Sprint1.DTOs.TestConnectionDto
+@model Sprint1.Models.ViewModels.TestConnectionViewModel
 
 @{
     ViewData["Title"] = "Teste de Conexão";
 }
 
-<h1>Teste de Conexão com Banco de Dados</h1>
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-header @(Model.Success ? "bg-success" : "bg-danger") text-white">
+                <h4 class="mb-0">
+                    <i class="bi bi-database-check me-2"></i>Teste de Conexão com Banco de Dados
+                </h4>
+            </div>
+            <div class="card-body">
+                @if (Model.Success)
+                {
+                    <div class="alert alert-success" role="alert">
+                        <h5 class="alert-heading">
+                            <i class="bi bi-check-circle-fill me-2"></i>@Model.Message
+                        </h5>
+                    </div>
 
-<div>
-    <dl>
-        <dt>Sucesso:</dt>
-        <dd>@(Model.Success ? "Sim" : "Não")</dd>
-        
-        <dt>Mensagem:</dt>
-        <dd>@Model.Message</dd>
-        
-        <dt>Banco de Dados:</dt>
-        <dd>@Model.Database</dd>
-        
-        <dt>Servidor:</dt>
-        <dd>@Model.Servidor</dd>
-        
-        <dt>Total de Usuários:</dt>
-        <dd>@Model.TotalUsuarios</dd>
-        
-        <dt>Timestamp:</dt>
-        <dd>@Model.Timestamp.ToString("dd/MM/yyyy HH:mm:ss")</dd>
-        
-        @if (!Model.Success)
-        {
-            <dt>Erro:</dt>
-            <dd>@Model.Error</dd>
-            
-            @if (!string.IsNullOrEmpty(Model.InnerError))
-            {
-                <dt>Erro Interno:</dt>
-                <dd>@Model.InnerError</dd>
-            }
-            
-            <dt>Estado da Conexão:</dt>
-            <dd>@Model.ConnectionState</dd>
-        }
-    </dl>
+                    <dl class="row">
+                        <dt class="col-sm-4">
+                            <i class="bi bi-database me-1"></i>Banco de Dados:
+                        </dt>
+                        <dd class="col-sm-8"><strong>@Model.Database</strong></dd>
+
+                        <dt class="col-sm-4">
+                            <i class="bi bi-server me-1"></i>Servidor:
+                        </dt>
+                        <dd class="col-sm-8">@Model.Servidor</dd>
+
+                        <dt class="col-sm-4">
+                            <i class="bi bi-people me-1"></i>Total de Usuários:
+                        </dt>
+                        <dd class="col-sm-8">
+                            <span class="badge bg-primary">@Model.TotalUsuarios</span>
+                        </dd>
+
+                        <dt class="col-sm-4">
+                            <i class="bi bi-clock me-1"></i>Timestamp:
+                        </dt>
+                        <dd class="col-sm-8">@Model.Timestamp.ToString("dd/MM/yyyy HH:mm:ss") UTC</dd>
+                    </dl>
+                }
+                else
+                {
+                    <div class="alert alert-danger" role="alert">
+                        <h5 class="alert-heading">
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>Erro na Conexão
+                        </h5>
+                        <hr>
+                        <p class="mb-0">@Model.Message</p>
+                    </div>
+
+                    <dl class="row">
+                        <dt class="col-sm-4">
+                            <i class="bi bi-x-circle me-1"></i>Erro:
+                        </dt>
+                        <dd class="col-sm-8 text-danger"><strong>@Model.Error</strong></dd>
+
+                        @if (!string.IsNullOrEmpty(Model.InnerError))
+                        {
+                            <dt class="col-sm-4">
+                                <i class="bi bi-exclamation-circle me-1"></i>Erro Interno:
+                            </dt>
+                            <dd class="col-sm-8">@Model.InnerError</dd>
+                        }
+
+                        <dt class="col-sm-4">
+                            <i class="bi bi-diagram-3 me-1"></i>Estado da Conexão:
+                        </dt>
+                        <dd class="col-sm-8">
+                            <span class="badge bg-warning text-dark">@Model.ConnectionState</span>
+                        </dd>
+
+                        @if (!string.IsNullOrEmpty(Model.StackTrace) && User.IsInRole("Admin"))
+                        {
+                            <dt class="col-sm-12 mt-3">
+                                <i class="bi bi-code-square me-1"></i>Stack Trace:
+                            </dt>
+                            <dd class="col-sm-12">
+                                <pre class="bg-light p-3 rounded"><code>@Model.StackTrace</code></pre>
+                            </dd>
+                        }
+                    </dl>
+                }
+            </div>
+            <div class="card-footer bg-light">
+                <div class="d-flex justify-content-between">
+                    <a asp-action="Index" class="btn btn-outline-primary">
+                        <i class="bi bi-arrow-left me-1"></i>Voltar para Lista de Usuários
+                    </a>
+                    @if (!Model.Success)
+                    {
+                        <a asp-action="TestConnection" class="btn btn-primary">
+                            <i class="bi bi-arrow-clockwise me-1"></i>Tentar Novamente
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
-<div>
-    <a asp-action="Index">Voltar para Lista de Usuários</a>
-</div>
-

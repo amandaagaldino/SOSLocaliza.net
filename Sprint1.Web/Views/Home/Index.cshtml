@@ -1,13 +1,72 @@
 ﻿@{
-    ViewData["Title"] = "SOSLocaliza - Home";
+    ViewData["Title"] = "Home";
 }
 
-<div>
-    <h1>SOSLocaliza</h1>
-    <p>Sistema de gerenciamento de usuários</p>
-    
-    <ul>
-        <li><a asp-controller="Usuario" asp-action="Index">Gerenciar Usuários</a></li>
-        <li><a asp-controller="Usuario" asp-action="TestConnection">Testar Conexão com Banco de Dados</a></li>
-    </ul>
+<div class="text-center mb-5">
+    <h1 class="display-4 mb-3">
+        <i class="bi bi-shield-check text-primary"></i> SOSLocaliza
+    </h1>
+    <p class="lead text-muted">Sistema de Segurança para População em Situação de Risco Climático</p>
+</div>
+
+<div class="row g-4 mb-5">
+    <div class="col-md-6">
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-body text-center">
+                <div class="mb-3">
+                    <i class="bi bi-people text-primary" style="font-size: 3rem;"></i>
+                </div>
+                <h5 class="card-title">Gerenciar Usuários</h5>
+                <p class="card-text text-muted">
+                    Cadastre, visualize, edite e gerencie os usuários do sistema.
+                </p>
+                <a asp-controller="Usuario" asp-action="Index" class="btn btn-primary">
+                    <i class="bi bi-arrow-right me-1"></i>Acessar
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-body text-center">
+                <div class="mb-3">
+                    <i class="bi bi-database-check text-success" style="font-size: 3rem;"></i>
+                </div>
+                <h5 class="card-title">Testar Conexão</h5>
+                <p class="card-text text-muted">
+                    Verifique o status da conexão com o banco de dados Oracle.
+                </p>
+                <a asp-controller="Usuario" asp-action="TestConnection" class="btn btn-success">
+                    <i class="bi bi-arrow-right me-1"></i>Testar
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">
+                    <i class="bi bi-info-circle me-2"></i>Sobre o Sistema
+                </h5>
+            </div>
+            <div class="card-body">
+                <p>
+                    O <strong>SOSLocaliza</strong> é um aplicativo inovador que visa promover a segurança da população 
+                    em situação de risco climático, combinando geolocalização, aprendizado de máquina e mapas interativos.
+                </p>
+                <p class="mb-0">
+                    <strong>Principais funcionalidades:</strong>
+                </p>
+                <ul>
+                    <li>Identificação de áreas de risco</li>
+                    <li>Envio de alertas emergenciais</li>
+                    <li>Acesso a orientações preventivas para eventos extremos</li>
+                    <li>Gerenciamento completo de usuários</li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
