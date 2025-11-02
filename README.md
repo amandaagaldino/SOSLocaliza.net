@@ -13,32 +13,11 @@ Este projeto é composto por duas aplicações principais:
 
 ### Pré-requisitos
 
-- .NET SDK 8.0 ou superior
+- .NET SDK 8.0
 - Oracle Database ou acesso a um servidor Oracle
 - Visual Studio ou Rider
 
-### Configuração
-
-1. **Configurar Connection String**
-
-   Atualize a connection string nos arquivos `appsettings.json` de ambos os projetos:
-   
-   ```json
-   {
-     "ConnectionStrings": {
-       "OracleDb": "User Id=SEU_USUARIO;Password=SUA_SENHA;Data Source=HOST:PORTA/SERVICO;"
-     }
-   }
-   ```
-
-2. **Executar Migrations**
-
-   ```bash
-   cd Sprint1.API
-   dotnet ef database update
-   ```
-
-3. **Executar a Aplicação**
+ **Executar a Aplicação**
 
    **API:**
    ```bash
@@ -127,16 +106,6 @@ A aplicação web MVC oferece:
 * **RNF04 (Manutenibilidade):** O código deve seguir os princípios da Clean Architecture para garantir o desacoplamento e a facilidade de manutenção.
 * **RNF05 (Confiabilidade):** A API deve implementar tratamento de erros para retornar mensagens claras e status HTTP adequados.
 * **RNF06 (Usabilidade):** A interface web deve ser responsiva e intuitiva, utilizando Bootstrap para garantir compatibilidade em diferentes dispositivos.
-
-### Arquitetura
-
-- **Domain Layer**: Entidades e interfaces de repositório
-- **Infrastructure Layer**: Implementação do repositório com Entity Framework
-- **Application Layer**: Use Cases para cada operação
-- **Presentation Layer**: 
-  - Controllers com DTOs (API)
-  - Controllers com ViewModels (Web)
-  - Views Razor com validações
 
 ## Endpoints da API
 
