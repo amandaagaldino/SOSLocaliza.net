@@ -1,5 +1,7 @@
 html {
   font-size: 14px;
+  position: relative;
+  min-height: 100%;
 }
 
 @media (min-width: 768px) {
@@ -12,11 +14,71 @@ html {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
-html {
-  position: relative;
-  min-height: 100%;
+body {
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-body {
-  margin-bottom: 60px;
+main {
+  flex: 1;
+}
+
+/* Cards e tabelas melhorados */
+.card {
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  border: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.table {
+  background-color: white;
+}
+
+.table thead th {
+  background-color: #f8f9fa;
+  border-bottom: 2px solid #dee2e6;
+  font-weight: 600;
+}
+
+/* Formulários melhorados */
+.form-label {
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.form-control:focus {
+  border-color: #86b7fe;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* Badges customizados */
+.badge {
+  padding: 0.35em 0.65em;
+}
+
+/* Footer fixo no final */
+footer {
+  margin-top: auto;
+}
+
+/* Animação suave para alertas */
+.alert {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Botões de ação */
+.btn-action {
+  margin: 0 0.25rem;
 }
