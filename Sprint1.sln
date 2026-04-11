@@ -5,6 +5,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprint1.API", "Sprint1.API\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprint1.Web", "Sprint1.Web\Sprint1.Web.csproj", "{D3521573-D10F-46F7-9030-A992AB9D8A3E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprint1.UnitTests", "Sprint1.UnitTests\Sprint1.UnitTests.csproj", "{28C08C3A-D9E8-42E4-A9AE-78B430CBE775}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprint1.IntegrationTests", "Sprint1.IntegrationTests\Sprint1.IntegrationTests.csproj", "{5099DFB2-40D8-4A11-9DED-58AAEA2E4B26}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,5 +23,13 @@ Global
 		{D3521573-D10F-46F7-9030-A992AB9D8A3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3521573-D10F-46F7-9030-A992AB9D8A3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D3521573-D10F-46F7-9030-A992AB9D8A3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28C08C3A-D9E8-42E4-A9AE-78B430CBE775}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28C08C3A-D9E8-42E4-A9AE-78B430CBE775}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28C08C3A-D9E8-42E4-A9AE-78B430CBE775}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28C08C3A-D9E8-42E4-A9AE-78B430CBE775}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5099DFB2-40D8-4A11-9DED-58AAEA2E4B26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5099DFB2-40D8-4A11-9DED-58AAEA2E4B26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5099DFB2-40D8-4A11-9DED-58AAEA2E4B26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5099DFB2-40D8-4A11-9DED-58AAEA2E4B26}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
