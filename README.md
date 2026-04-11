@@ -446,7 +446,7 @@ A interface web oferece uma experiência completa de gerenciamento de usuários:
 
 - **Amanda Galdino** (RM560066)
 - **Bruno Cantacini** (RM560242)
-- **Gustavo** (RM560716)
+- **Gustavo Gonçalves** (RM556823)
 
 ## Challenge Oracle - FIAP
 
