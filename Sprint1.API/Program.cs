@@ -11,6 +11,14 @@ using OpenTelemetry.Trace;
 using OpenTelemetry.Metrics;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Sprint1.Middleware;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Sprint1.Application.Services;
+using Sprint1.Application.UseCase;
+using MongoDB.Driver;
+using Sprint1.Infrastructure.Repositories;
 
 public partial class Program
 {
@@ -92,6 +100,32 @@ public partial class Program
                     
                     swagger.EnableAnnotations();
 
+                    // Configurar autenticação JWT no Swagger
+                    swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                    {
+                        Name = "Authorization",
+                        Type = SecuritySchemeType.Http,
+                        Scheme = "bearer",
+                        BearerFormat = "JWT",
+                        In = ParameterLocation.Header,
+                        Description = "Insira o token JWT no formato: Bearer {seu token}"
+                    });
+
+                    swagger.AddSecurityRequirement(new OpenApiSecurityRequirement
+                    {
+                        {
+                            new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Type = ReferenceType.SecurityScheme,
+                                    Id = "Bearer"
+                                }
+                            },
+                            new string[] {}
+                        }
+                    });
+
                     foreach (var server in swaggerConfig.Servers)
                     {
                         swagger.AddServer(new OpenApiServer
@@ -106,12 +140,61 @@ public partial class Program
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseOracle(builder.Configuration.GetConnectionString("OracleDb"))
             );
+
+            // Configure MongoDB
+            builder.Services.AddSingleton<IMongoClient>(sp =>
+            {
+                var mongoSettings = builder.Configuration.GetSection("MongoDB");
+                var connectionString = mongoSettings["ConnectionString"] ?? "mongodb://localhost:27017";
+                return new MongoClient(connectionString);
+            });
+
+            builder.Services.AddScoped<IMongoDatabase>(sp =>
+            {
+                var mongoSettings = builder.Configuration.GetSection("MongoDB");
+                var databaseName = mongoSettings["DatabaseName"] ?? "SOSLocalizaDB";
+                var client = sp.GetRequiredService<IMongoClient>();
+                return client.GetDatabase(databaseName);
+            });
             
             builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
             builder.Services.AddScoped<IUsuarioUseCase, UsuarioUseCase>();
             builder.Services.AddScoped<TestConnectionUseCase>();
+            builder.Services.AddScoped<ITokenService, TokenService>();
+            builder.Services.AddScoped<ILoginAuditRepository, LoginAuditRepository>();
+            builder.Services.AddScoped<IAuthUseCase, AuthUseCase>();
+            builder.Services.AddHttpContextAccessor();
+
+            // Configure JWT Authentication
+            var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+            var secretKey = jwtSettings["SecretKey"] ?? throw new InvalidOperationException("JWT SecretKey not configured");
+            
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = jwtSettings["Issuer"],
+                    ValidAudience = jwtSettings["Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
+                    ClockSkew = TimeSpan.Zero
+                };
+            });
+
+            builder.Services.AddAuthorization();
             
             var app = builder.Build();
+            
+            // Add global exception handler middleware
+            app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
             
             // Add request logging middleware
             app.UseSerilogRequestLogging(options =>
@@ -156,8 +239,9 @@ public partial class Program
             }
 
             app.UseHttpsRedirection();
-            app.UseAuthorization();
             app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.MapControllers();
             
             Log.Information("SOSLocaliza API started successfully");
