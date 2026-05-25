@@ -1,7 +1,9 @@
 using Sprint1.Domain.Entities;
 using Sprint1.Domain.Repositories;
+using Sprint1.DTOs;
 using Sprint1.DTOs.Usuario;
 using Microsoft.Extensions.Logging;
+using Sprint1.Domain.Exceptions;
 
 namespace Sprint1.Infrastructure.Data.UseCase;
 
@@ -24,14 +26,14 @@ public class UsuarioUseCase : IUsuarioUseCase
         if (await _usuarioRepository.EmailExistsAsync(dto.Email))
         {
             _logger.LogWarning("Failed to create user. Email already exists: {Email}", dto.Email);
-            throw new InvalidOperationException("Email já está em uso");
+            throw new EmailDuplicadoException(dto.Email);
         }
 
         // Verificar se cpf ja existe
         if (await _usuarioRepository.CpfExistsAsync(dto.Cpf))
         {
             _logger.LogWarning("Failed to create user. CPF already exists: {Cpf}", dto.Cpf);
-            throw new InvalidOperationException("CPF já está em uso");
+            throw new CpfDuplicadoException(dto.Cpf);
         }
 
         var usuario = new Domain.Entities.Usuario(
@@ -68,7 +70,7 @@ public class UsuarioUseCase : IUsuarioUseCase
         if (usuario == null)
         {
             _logger.LogWarning("User not found with ID: {UserId}", id);
-            return null;
+            throw new UsuarioNotFoundException(id);
         }
 
         _logger.LogInformation("User found with ID: {UserId}", id);
@@ -103,6 +105,28 @@ public class UsuarioUseCase : IUsuarioUseCase
         }).ToList();
     }
 
+    public async Task<PagedResult<UsuarioResponseDto>> GetUsuariosPagedAsync(UsuarioQueryParameters parameters)
+    {
+        _logger.LogInformation("Fetching paged users with parameters: Page={Page}, PageSize={PageSize}, SortBy={SortBy}",
+            parameters.Page, parameters.PageSize, parameters.SortBy);
+
+        var (usuarios, totalCount) = await _usuarioRepository.GetPagedAsync(parameters);
+
+        var usuarioDtos = usuarios.Select(usuario => new UsuarioResponseDto
+        {
+            Id = usuario.Id,
+            NomeCompleto = usuario.NomeCompleto,
+            Email = usuario.Email,
+            DataNascimento = usuario.DataNascimento,
+            Cpf = usuario.Cpf,
+            DataCriacao = usuario.DataCriacao,
+            DataAtualizacao = usuario.DataAtualizacao,
+            Ativo = usuario.Ativo
+        }).ToList();
+
+        return new PagedResult<UsuarioResponseDto>(usuarioDtos, totalCount, parameters.Page, parameters.PageSize);
+    }
+
     public async Task<UsuarioResponseDto> AlterarEmailUsuarioAsync(int id, AlterarEmailDto dto)
     {
         _logger.LogInformation("Attempting to change email for user ID: {UserId} to {NewEmail}", id, dto.Email);
@@ -112,7 +136,7 @@ public class UsuarioUseCase : IUsuarioUseCase
         if (usuario == null)
         {
             _logger.LogWarning("Failed to change email. User not found with ID: {UserId}", id);
-            throw new InvalidOperationException("Usuário não encontrado");
+            throw new UsuarioNotFoundException(id);
         }
 
         // Verificar se email ja existe em outro usuario
@@ -120,7 +144,7 @@ public class UsuarioUseCase : IUsuarioUseCase
         if (usuarioComEmail != null && usuarioComEmail.Id != id)
         {
             _logger.LogWarning("Failed to change email. Email already in use: {Email}", dto.Email);
-            throw new InvalidOperationException("Email já está em uso por outro usuário");
+            throw new EmailDuplicadoException(dto.Email);
         }
 
         usuario.AlterarEmail(dto.Email);
@@ -147,7 +171,7 @@ public class UsuarioUseCase : IUsuarioUseCase
         var usuario = await _usuarioRepository.GetByIdAsync(id);
         
         if (usuario == null)
-            throw new InvalidOperationException("Usuário não encontrado");
+            throw new UsuarioNotFoundException(id);
 
         // Verificar senha atual
         if (usuario.Senha != dto.SenhaAtual)
@@ -179,7 +203,7 @@ public class UsuarioUseCase : IUsuarioUseCase
         if (usuario == null)
         {
             _logger.LogWarning("Failed to delete user. User not found with ID: {UserId}", id);
-            throw new InvalidOperationException("Usuário não encontrado");
+            throw new UsuarioNotFoundException(id);
         }
 
         await _usuarioRepository.DeleteAsync(usuario);
