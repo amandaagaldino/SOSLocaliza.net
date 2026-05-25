@@ -148,14 +148,6 @@ O **SOSLocaliza** é uma solução completa para gerenciamento de usuários em s
 └───────────────────────────────────────────────────────────────────────────┘
 ```
 
-### Princípios da Clean Architecture
-
-1. **Independência de Frameworks**: O domínio não depende de frameworks externos
-2. **Testabilidade**: Todas as camadas são testáveis independentemente
-3. **Independência de UI**: A lógica de negócio não conhece a UI
-4. **Independência de Banco de Dados**: Uso de abstrações (repositories)
-5. **Regra de Dependência**: Dependências apontam sempre para dentro
-
 ### Estrutura de Pastas
 
 ```
@@ -257,13 +249,6 @@ SOSLocaliza.net/
 
 ## 📦 Instalação
 
-### Pré-requisitos
-
-- [.NET SDK 8.0](https://dotnet.microsoft.com/download)
-- [Oracle Database](https://www.oracle.com/database/) ou acesso a servidor Oracle
-- [MongoDB](https://www.mongodb.com/) (local ou Atlas)
-- IDE: [Visual Studio](https://visualstudio.microsoft.com/) ou [Rider](https://www.jetbrains.com/rider/)
-
 ### Passo 1: Clonar o Repositório
 
 ```bash
@@ -271,51 +256,8 @@ git clone https://github.com/seu-usuario/soslocaliza.git
 cd soslocaliza
 ```
 
-### Passo 2: Configurar Banco de Dados Oracle
 
-Edite `Sprint1.API/appsettings.json`:
-
-```json
-{
-  "ConnectionStrings": {
-    "OracleDb": "User Id=seu_usuario;Password=sua_senha;Data Source=servidor:porta/servico;"
-  }
-}
-```
-
-### Passo 3: Configurar MongoDB
-
-**Opção A: MongoDB Local (Docker)**
-```bash
-docker run -d -p 27017:27017 --name mongodb mongo:latest
-```
-
-**Opção B: MongoDB Atlas (Cloud)**
-1. Crie uma conta em [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
-2. Crie um cluster gratuito
-3. Configure acesso de rede (IP Whitelist)
-4. Obtenha a connection string
-
-Edite `Sprint1.API/appsettings.json`:
-
-```json
-{
-  "MongoDB": {
-    "ConnectionString": "mongodb://localhost:27017",
-    "DatabaseName": "SOSLocalizaDB",
-    "LoginAuditsCollection": "LoginAudits"
-  }
-}
-```
-
-### Passo 4: Aplicar Migrations
-
-```bash
-cd Sprint1.API
-dotnet ef database update
-```
-
-### Passo 5: Executar a Aplicação
+### Passo 2: Executar a Aplicação
 
 **API:**
 ```bash
@@ -332,22 +274,6 @@ dotnet run
 ```
 
 Acesse: `http://localhost:5000`
-
-### Passo 6: Executar Testes
-
-```bash
-# Todos os testes
-dotnet test
-
-# Apenas testes unitários
-dotnet test Sprint1.UnitTests/
-
-# Apenas testes de integração
-dotnet test Sprint1.IntegrationTests/
-
-# Com detalhes
-dotnet test --verbosity detailed
-```
 
 ---
 
