@@ -182,7 +182,7 @@ public class UsuarioControllerTests
         var client = factory.CreateClient();
 
         // Act
-        var response = await client.GetAsync("/api/usuario");
+        var response = await client.GetAsync("/api/usuario/all");
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -199,7 +199,7 @@ public class UsuarioControllerTests
         var client = factory.CreateClient();
 
         // Act
-        var response = await client.GetAsync("/api/usuario");
+        var response = await client.GetAsync("/api/usuario/all");
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
