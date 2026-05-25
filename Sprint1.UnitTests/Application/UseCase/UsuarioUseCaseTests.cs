@@ -5,6 +5,7 @@ using Sprint1.Domain.Entities;
 using Sprint1.Domain.Repositories;
 using Sprint1.DTOs.Usuario;
 using Sprint1.Infrastructure.Data.UseCase;
+using Sprint1.Domain.Exceptions;
 using Xunit;
 
 namespace Sprint1.UnitTests.Application.UseCase;
@@ -80,8 +81,8 @@ public class UsuarioUseCaseTests
         Func<Task> act = async () => await _useCase.CreateUsuarioAsync(dto);
 
         // Assert
-        await act.Should().ThrowAsync<InvalidOperationException>()
-            .WithMessage("Email já está em uso");
+        await act.Should().ThrowAsync<EmailDuplicadoException>()
+            .WithMessage("*já está em uso*");
         
         _repositoryMock.Verify(r => r.EmailExistsAsync(dto.Email), Times.Once);
         _repositoryMock.Verify(r => r.CpfExistsAsync(It.IsAny<string>()), Times.Never);
@@ -110,8 +111,8 @@ public class UsuarioUseCaseTests
         Func<Task> act = async () => await _useCase.CreateUsuarioAsync(dto);
 
         // Assert
-        await act.Should().ThrowAsync<InvalidOperationException>()
-            .WithMessage("CPF já está em uso");
+        await act.Should().ThrowAsync<CpfDuplicadoException>()
+            .WithMessage("*já está em uso*");
         
         _repositoryMock.Verify(r => r.EmailExistsAsync(dto.Email), Times.Once);
         _repositoryMock.Verify(r => r.CpfExistsAsync(dto.Cpf), Times.Once);
@@ -159,10 +160,11 @@ public class UsuarioUseCaseTests
             .ReturnsAsync((Usuario)null);
 
         // Act
-        var result = await _useCase.GetUsuarioByIdAsync(usuarioId);
+        Func<Task> act = async () => await _useCase.GetUsuarioByIdAsync(usuarioId);
 
         // Assert
-        result.Should().BeNull();
+        await act.Should().ThrowAsync<UsuarioNotFoundException>()
+            .WithMessage("*não foi encontrado*");
         
         _repositoryMock.Verify(r => r.GetByIdAsync(usuarioId), Times.Once);
     }
@@ -264,8 +266,8 @@ public class UsuarioUseCaseTests
         Func<Task> act = async () => await _useCase.AlterarEmailUsuarioAsync(usuarioId, dto);
 
         // Assert
-        await act.Should().ThrowAsync<InvalidOperationException>()
-            .WithMessage("Usuário não encontrado");
+        await act.Should().ThrowAsync<UsuarioNotFoundException>()
+            .WithMessage("*não foi encontrado*");
         
         _repositoryMock.Verify(r => r.GetByIdAsync(usuarioId), Times.Once);
         _repositoryMock.Verify(r => r.UpdateAsync(It.IsAny<Usuario>()), Times.Never);
@@ -301,8 +303,8 @@ public class UsuarioUseCaseTests
         Func<Task> act = async () => await _useCase.AlterarEmailUsuarioAsync(usuarioId, dto);
 
         // Assert
-        await act.Should().ThrowAsync<InvalidOperationException>()
-            .WithMessage("Email já está em uso por outro usuário");
+        await act.Should().ThrowAsync<EmailDuplicadoException>()
+            .WithMessage("*já está em uso*");
         
         _repositoryMock.Verify(r => r.UpdateAsync(It.IsAny<Usuario>()), Times.Never);
     }
@@ -419,8 +421,8 @@ public class UsuarioUseCaseTests
         Func<Task> act = async () => await _useCase.DeleteUsuarioAsync(usuarioId);
 
         // Assert
-        await act.Should().ThrowAsync<InvalidOperationException>()
-            .WithMessage("Usuário não encontrado");
+        await act.Should().ThrowAsync<UsuarioNotFoundException>()
+            .WithMessage("*não foi encontrado*");
         
         _repositoryMock.Verify(r => r.GetByIdAsync(usuarioId), Times.Once);
         _repositoryMock.Verify(r => r.DeleteAsync(It.IsAny<Usuario>()), Times.Never);
