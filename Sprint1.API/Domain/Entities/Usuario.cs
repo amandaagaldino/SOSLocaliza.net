@@ -10,6 +10,7 @@ public class Usuario
     public string Senha { get; private set; } = string.Empty;
     public DateTime DataNascimento { get; private set; }
     public string Cpf { get; private set; } = string.Empty;
+    public string Role { get; private set; } = "User"; // User ou Admin
     public DateTime DataCriacao { get; private set; }
     public DateTime? DataAtualizacao { get; private set; }
     public bool Ativo { get; private set; }
@@ -73,6 +74,18 @@ public class Usuario
     public void Ativar()
     {
         Ativo = true;
+        DataAtualizacao = DateTime.UtcNow;
+    }
+
+    public void AlterarRole(string role)
+    {
+        if (string.IsNullOrWhiteSpace(role))
+            throw new ArgumentException("Role não pode ser vazia", nameof(role));
+        
+        if (role != "User" && role != "Admin")
+            throw new ArgumentException("Role deve ser 'User' ou 'Admin'", nameof(role));
+        
+        Role = role;
         DataAtualizacao = DateTime.UtcNow;
     }
 
