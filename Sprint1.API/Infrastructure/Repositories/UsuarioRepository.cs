@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Sprint1.Domain.Entities;
 using Sprint1.Infrastructure.Data;
+using Sprint1.DTOs.Usuario;
+using System.Linq.Expressions;
 
 namespace Sprint1.Domain.Repositories;
 
@@ -26,6 +28,82 @@ public class UsuarioRepository : IUsuarioRepository
             .Where(u => u.Ativo == true)
             .OrderBy(u => u.NomeCompleto)
             .ToListAsync();
+    }
+
+    public async Task<(List<Usuario> usuarios, int totalCount)> GetPagedAsync(UsuarioQueryParameters parameters)
+    {
+        var query = _context.Usuarios.AsQueryable();
+
+        // Aplicar filtros
+        if (parameters.Ativo.HasValue)
+        {
+            query = query.Where(u => u.Ativo == parameters.Ativo.Value);
+        }
+        else
+        {
+            query = query.Where(u => u.Ativo == true); // Por padrão, apenas ativos
+        }
+
+        if (!string.IsNullOrWhiteSpace(parameters.Nome))
+        {
+            query = query.Where(u => u.NomeCompleto.Contains(parameters.Nome));
+        }
+
+        if (!string.IsNullOrWhiteSpace(parameters.Email))
+        {
+            query = query.Where(u => u.Email.Contains(parameters.Email));
+        }
+
+        if (!string.IsNullOrWhiteSpace(parameters.Cpf))
+        {
+            query = query.Where(u => u.Cpf.Contains(parameters.Cpf));
+        }
+
+        // Contar total antes da paginação
+        var totalCount = await query.CountAsync();
+
+        // Aplicar ordenação
+        if (!string.IsNullOrWhiteSpace(parameters.SortBy))
+        {
+            query = ApplyOrdering(query, parameters.SortBy, parameters.SortOrder);
+        }
+        else
+        {
+            query = query.OrderBy(u => u.NomeCompleto); // Ordenação padrão
+        }
+
+        // Aplicar paginação
+        var usuarios = await query
+            .Skip((parameters.Page - 1) * parameters.PageSize)
+            .Take(parameters.PageSize)
+            .ToListAsync();
+
+        return (usuarios, totalCount);
+    }
+
+    private IQueryable<Usuario> ApplyOrdering(IQueryable<Usuario> query, string sortBy, string sortOrder)
+    {
+        var isDescending = sortOrder.ToLower() == "desc";
+
+        return sortBy.ToLower() switch
+        {
+            "nome" or "nomecompleto" => isDescending
+                ? query.OrderByDescending(u => u.NomeCompleto)
+                : query.OrderBy(u => u.NomeCompleto),
+            "email" => isDescending
+                ? query.OrderByDescending(u => u.Email)
+                : query.OrderBy(u => u.Email),
+            "cpf" => isDescending
+                ? query.OrderByDescending(u => u.Cpf)
+                : query.OrderBy(u => u.Cpf),
+            "datacriacao" => isDescending
+                ? query.OrderByDescending(u => u.DataCriacao)
+                : query.OrderBy(u => u.DataCriacao),
+            "datanascimento" => isDescending
+                ? query.OrderByDescending(u => u.DataNascimento)
+                : query.OrderBy(u => u.DataNascimento),
+            _ => query.OrderBy(u => u.NomeCompleto) // Padrão
+        };
     }
 
     public async Task<Usuario?> GetByIdAsync(int id)
