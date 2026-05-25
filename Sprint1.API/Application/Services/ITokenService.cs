@@ -7,4 +7,3 @@ public interface ITokenService
     string GenerateToken(Usuario usuario);
 }
 
-// Made with Bob

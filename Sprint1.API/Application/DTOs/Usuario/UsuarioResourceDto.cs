@@ -10,4 +10,3 @@ public class UsuarioResourceDto : UsuarioResponseDto
     }
 }
 
-// Made with Bob

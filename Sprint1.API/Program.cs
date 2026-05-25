@@ -233,7 +233,7 @@ public partial class Program
                 app.UseSwaggerUI(ui =>
                     {
                         ui.SwaggerEndpoint("/swagger/v1/swagger.json", "Sprint1.API v1");
-                        ui.RoutePrefix = string.Empty;
+                        // ui.RoutePrefix = string.Empty; // Removed to use default /swagger route
                     }
                 );
             }

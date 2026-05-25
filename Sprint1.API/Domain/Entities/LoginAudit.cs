@@ -38,4 +38,3 @@ public class LoginAudit
     public string? UserAgent { get; set; }
 }
 
-// Made with Bob

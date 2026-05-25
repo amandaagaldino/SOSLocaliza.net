@@ -31,4 +31,3 @@ public class AuthController : ControllerBase
     }
 }
 
-// Made with Bob

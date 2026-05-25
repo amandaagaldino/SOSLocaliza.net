@@ -144,5 +144,3 @@ public class AuthUseCase : IAuthUseCase
         }
     }
 }
-
-// Made with Bob

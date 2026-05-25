@@ -17,4 +17,3 @@ public class QueryParameters
     public string SortOrder { get; set; } = "asc"; // asc or desc
 }
 
-// Made with Bob

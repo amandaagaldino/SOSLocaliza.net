@@ -7,4 +7,3 @@ public interface IAuthUseCase
     Task<TokenResponseDto> LoginAsync(LoginDto loginDto);
 }
 
-// Made with Bob

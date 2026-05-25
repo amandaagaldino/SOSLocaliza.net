@@ -12,4 +12,3 @@ public class LoginDto
     public string Senha { get; set; } = string.Empty;
 }
 
-// Made with Bob

@@ -186,4 +186,3 @@ public static class HateoasHelper
     }
 }
 
-// Made with Bob

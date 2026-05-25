@@ -28,4 +28,3 @@ public interface ILoginAuditRepository
     Task<List<LoginAudit>> GetFailedLoginAttemptsAsync(int limit = 50);
 }
 
-// Made with Bob

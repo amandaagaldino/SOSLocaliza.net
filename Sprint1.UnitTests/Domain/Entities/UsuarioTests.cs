@@ -243,4 +243,3 @@ public class UsuarioTests
     #endregion
 }
 
-// Made with Bob

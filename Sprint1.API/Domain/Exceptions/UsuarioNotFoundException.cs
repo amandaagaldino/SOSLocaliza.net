@@ -13,4 +13,3 @@ public class UsuarioNotFoundException : Exception
     }
 }
 
-// Made with Bob

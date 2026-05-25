@@ -8,4 +8,3 @@ public class UsuarioQueryParameters : QueryParameters
     public bool? Ativo { get; set; }
 }
 
-// Made with Bob
